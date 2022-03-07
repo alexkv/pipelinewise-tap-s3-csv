@@ -88,13 +88,13 @@ def main() -> None:
         for _ in s3.list_files_in_bucket(config['bucket']):
             break
         LOGGER.warning("I have direct access to the bucket without assuming the configured role.")
-    except Exception:
+    except Exception as err:
         s3.setup_aws_client(config)
 
     if args.discover:
         do_discover(args.config)
-    elif args.properties:
-        do_sync(config, args.properties, args.state)
+    elif args.catalog:
+        do_sync(config, args.catalog.to_dict(), args.state)
 
 
 if __name__ == '__main__':
